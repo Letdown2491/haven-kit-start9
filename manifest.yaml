@@ -1,0 +1,114 @@
+id: haven
+title: "Haven"
+version: 1.0.0
+release-notes: |
+  * Initial release of Haven for Start9
+  * Multi-relay architecture (Private, Chat, Inbox, Outbox, Blossom)
+  * Support for BadgerDB and LMDB database engines
+  * S3-compatible backup integration
+  * Blastr relay broadcasting support
+  * Configure via Start9's native configuration system
+license: MIT
+wrapper-repo: "https://github.com/Letdown2491/haven-kit-start9"
+upstream-repo: "https://github.com/bitvora/haven"
+support-site: "https://github.com/Letdown2491/haven-kit/issues"
+marketing-site: "https://github.com/Letdown2491/haven-kit"
+build: ["make"]
+description:
+  short: High Availability Vault for Events on Nostr
+  long: |
+    Haven is a specialized Nostr relay system that provides a complete infrastructure
+    for managing your Nostr presence. It consists of five interconnected relay components:
+
+    - Private Relay: Secure storage for drafts and sensitive content
+    - Chat Relay: Direct messaging with web-of-trust validation
+    - Inbox Relay: Centralized location for mentions and tags
+    - Outbox Relay: Public-facing storage for your posts
+    - Blossom Media Server: Image and video content hosting
+
+    Configure your relay settings through Start9's native configuration interface
+    and connect to the Nostr network seamlessly.
+assets:
+  license: LICENSE
+  icon: assets/haven-icon.svg
+  instructions: instructions.md
+main:
+  type: docker
+  image: main
+  entrypoint: "docker_entrypoint.sh"
+  args: []
+  mounts:
+    main: /data
+hardware-requirements:
+  arch:
+    - x86_64
+    - aarch64
+health-checks:
+  main:
+    name: Nostr Relay
+    success-message: Haven relay is running and accepting connections.
+    type: script
+config:
+  get:
+    type: script
+  set:
+    type: script
+properties:
+  type: script
+volumes:
+  main:
+    type: data
+interfaces:
+  relay:
+    name: Nostr Relay
+    description: Haven Nostr relay websocket interface
+    tor-config:
+      port-mapping:
+        80: "3355"
+    lan-config:
+      443:
+        ssl: true
+        internal: 3355
+    ui: false
+    protocols:
+      - tcp
+      - http
+      - websocket
+alerts: {}
+dependencies: {}
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - /mnt/backup
+      - /data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /data
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /mnt/backup
+      - /data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /data
+migrations:
+  from:
+    "*":
+      type: script
+      args: ["from"]
+  to:
+    "*":
+      type: script
+      args: ["to"]

@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.*.kate-swp
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+.cache/
+
+# Build artifacts
+docker-images/
+*.s9pk
+scripts/*.js
