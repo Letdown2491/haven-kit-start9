@@ -25,14 +25,14 @@ Haven is a specialized Nostr relay system that provides a complete infrastructur
 
 ## Installation
 
-### From the Start9 Marketplace
+### From the Start9 Marketplace (Coming soon)
 
 1. Open your Start9 dashboard
 2. Navigate to the Marketplace
 3. Search for "Haven"
 4. Click "Install"
 5. Wait for the installation to complete
-6. Launch the Haven configuration interface from your services
+6. Open the Haven service and click **Config** to set up the relay
 
 ### Manual Installation (Sideloading)
 
@@ -79,11 +79,15 @@ All data is automatically included in Start9 system backups.
 
 After installation, open the Haven service in your Start9 dashboard and select **Config**.
 
-1. Pick a **Configuration Mode**:
-   - **Simple** – supply just your npub, optional username, and the advertised relay URL. Haven uses opinionated defaults for every other value.
-   - **Full** – edit every Haven environment variable (relay metadata, rate limits, imports, backups, logging, etc.).
-2. Fill out the fields in the relevant sections (Owner identity, relay endpoint, relay components, imports, backups, logging).
-3. Save. The package regenerates Haven's `.env` file and the Blastr/Import relay JSON lists under `/data/start9`.
+At the top of the form choose a **Configuration Mode**:
+
+- **Simple** – supply just your npub, optional username, and advertised relay URL. Haven fills every other value with sensible defaults.
+- **Full** – edit every Haven environment variable (relay metadata, rate limits, imports, backups, logging, etc.).
+
+Then work through the sections to set:
+
+1. Fill out the fields in each section (Owner identity, relay endpoint, relay components, imports, backups, logging).
+2. Save. The package regenerates Haven's `.env` file and the Blastr/Import relay JSON lists under `/data/start9`.
 
 Relay and import relay lists are entered one per line or comma-separated; they are written automatically to the JSON files consumed by Haven.
 
