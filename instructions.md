@@ -20,12 +20,18 @@ Haven consists of five interconnected relay components:
 
 Haven is configured through Start9's native configuration system:
 
-1. After installation, navigate to the Haven service in your Start9 dashboard
-2. Click on "Config" to access Haven's configuration options
-3. Configure your relay settings:
-   - **Enable/Disable Relay Types**: Toggle Private, Chat, Inbox, Outbox, and Blossom relays
-   - **Database Engine**: Choose between BadgerDB (faster, more memory) or LMDB (slower, less memory)
-4. Click "Save" to apply your configuration
+1. After installation, navigate to the Haven service in your Start9 dashboard.
+2. Click **Config** to open the Haven configuration form.
+3. Choose a **Configuration Mode**:
+   - **Simple** – supply just your npub, optional username, and advertised relay URL. Haven fills every other value with sensible defaults.
+   - **Full** – expose every Haven environment variable for fine-grained control.
+4. Work through the sections to set (especially when using Full mode):
+   - **Owner Identity & Relay Endpoint** – owner npub, display name, advertised websocket URL, port and bind address.
+   - **Database & Storage** – choose Badger or LMDB, adjust LMDB map size, and set the Blossom media directory.
+   - **Relay Details** – names, descriptions, icons, and rate limits for the Private, Chat, Outbox, and Inbox relays (all values map directly to the Haven `.env`).
+   - **Import & Blastr** – manage lists of relays (one per line) for historical imports and Blastr broadcasting. Files are generated automatically under `/data/start9`.
+   - **Backups & Integrations** – configure S3-compatible backups, global Web-of-Trust timeout, logging level, and timezone.
+5. Click **Save** to apply your configuration. Start9 will regenerate Haven's `.env` and supporting JSON files.
 
 **Note:** Configuration changes may require restarting the service.
 
@@ -59,9 +65,9 @@ To connect your Nostr client to your Haven relay:
 
 Haven stores all data in the Start9 managed volume at `/data`:
 
-- Configuration files: `/data/config`
-- Media files (Blossom): `/data/blossom`
-- Database files: `/data/db`
+- Generated configuration: `/data/start9` (includes the `.env` file plus blastr/import relay lists)
+- Media files (Blossom): `/data/blossom` by default (customisable)
+- Relay databases: managed by Haven under its data directory (Badger) or as configured for LMDB
 
 All data is automatically backed up when you perform a Start9 system backup.
 
@@ -114,11 +120,7 @@ For issues or questions:
 
 ### Advanced Configuration
 
-All Haven configuration is managed through Start9's Config interface. Available options include:
-
-- **Relay Types**: Enable/disable specific relay components
-- **Database Engine**: Choose between BadgerDB and LMDB
-- Performance characteristics differ between engines (see Config descriptions)
+All Haven configuration is managed through Start9's Config interface. Every environment variable used by Haven is surfaced, including relay metadata, rate limits, import/blastr lists, S3 credentials, and logging controls. The descriptions beside each field provide guidance and defaults.
 
 For more information about Haven's architecture and capabilities, refer to the [Haven documentation](https://github.com/bitvora/haven).
 

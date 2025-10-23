@@ -1,13 +1,11 @@
 id: haven
 title: "Haven"
-version: 1.0.0
+version: 1.2.7
 release-notes: |
-  * Initial release of Haven for Start9
-  * Multi-relay architecture (Private, Chat, Inbox, Outbox, Blossom)
-  * Support for BadgerDB and LMDB database engines
-  * S3-compatible backup integration
-  * Blastr relay broadcasting support
-  * Configure via Start9's native configuration system
+  * Updated to `letdown2491/haven-relay:v1.2.7` Docker Hub image for runtime parity
+  * Start9 native configuration now offers Simple and Full modes covering every Haven option
+  * Added management of Blastr/import relay lists and S3 backup settings via Start9 config
+  * Improved service properties overview and default data handling
 license: MIT
 wrapper-repo: "https://github.com/Letdown2491/haven-kit-start9"
 upstream-repo: "https://github.com/bitvora/haven"

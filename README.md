@@ -14,11 +14,11 @@ Haven is a specialized Nostr relay system that provides a complete infrastructur
 
 ## Features
 
-- Web-based configuration UI for easy setup
+- Start9 native configuration with Simple (quick-start) and Full (advanced) modes covering every Haven environment option
 - Multi-relay architecture for specialized content handling
 - Support for BadgerDB and LMDB database engines
 - S3-compatible backup integration
-- Blastr relay broadcasting support
+- Blastr relay broadcasting support with managed relay lists
 - Docker-based deployment optimized for Start9
 - Integrated with Start9's backup system
 - Accessible via Tor and LAN
@@ -47,46 +47,45 @@ If you want to install this package manually:
 
 This package includes:
 
-- **Haven Relay Engine** - Complete Nostr relay infrastructure
-- **Configuration UI** - Web-based interface for easy management
+- **Haven Relay Engine** - Complete Nostr relay infrastructure managed through Start9's configuration system
 
 ## Technical Details
 
 ### Services
 
-Haven runs two main services:
+Haven runs a single service:
 
-1. **haven_relay** (Port 3355): The core relay engine built from the [bitvora/haven](https://github.com/bitvora/haven) project
-2. **config_ui** (Port 8080): Flask-based web interface for configuration
+- **haven_relay** (Port 3355): The core relay engine built from the [bitvora/haven](https://github.com/bitvora/haven) project
 
-### Docker Images
+### Docker Image
 
-The app uses the following Docker images:
-- `letdown2491/haven-relay:latest`
-- `letdown2491/haven-config-ui:latest`
+This package reuses the published `letdown2491/haven-relay:v1.2.7` Docker Hub image and layers a Start9-specific entrypoint that bridges Start9 configuration files into Haven's runtime layout.
+
 
 ### Data Persistence
 
 Haven stores its data in Start9-managed volumes:
-- Configuration files: `/root/.haven/config`
-- Blossom media: `/root/.haven/blossom`
-- Database: `/root/.haven/db`
+- Generated configuration & relay lists: `/data/start9`
+- Blossom media (default): `/data/blossom`
+- Relay databases: managed under `/data` by Haven (Badger) or via LMDB map settings
 
 All data is automatically included in Start9 system backups.
 
 ### Interfaces
 
-- **Web Interface**: Accessible via Tor and (optionally) LAN on port 8080
-- **Nostr Relay**: Protocol endpoint on port 3355 for Nostr client connections
+- **Nostr Relay**: Protocol endpoint on port 3355 for Nostr client connections (via Tor and LAN proxies managed by Start9)
 
 ## Configuration
 
-After installation, access the web UI to configure:
+After installation, open the Haven service in your Start9 dashboard and select **Config**.
 
-- Relay settings (Private, Chat, Inbox, Outbox, Blossom)
-- Database engine selection (BadgerDB/LMDB)
-- Backup providers and S3 integration
-- Blastr relay connections for broadcasting
+1. Pick a **Configuration Mode**:
+   - **Simple** – supply just your npub, optional username, and the advertised relay URL. Haven uses opinionated defaults for every other value.
+   - **Full** – edit every Haven environment variable (relay metadata, rate limits, imports, backups, logging, etc.).
+2. Fill out the fields in the relevant sections (Owner identity, relay endpoint, relay components, imports, backups, logging).
+3. Save. The package regenerates Haven's `.env` file and the Blastr/Import relay JSON lists under `/data/start9`.
+
+Relay and import relay lists are entered one per line or comma-separated; they are written automatically to the JSON files consumed by Haven.
 
 ## Building from Source
 
