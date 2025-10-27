@@ -59,7 +59,7 @@ Haven runs a single service:
 
 ### Docker Image
 
-This package reuses the published `letdown2491/haven-relay:v1.2.7` Docker Hub image and layers a Start9-specific entrypoint that bridges Start9 configuration files into Haven's runtime layout.
+This package reuses the published `letdown2491/haven-relay:v1.3.1` Docker Hub image and layers a Start9-specific entrypoint that bridges Start9 configuration files into Haven's runtime layout.
 
 
 ### Data Persistence

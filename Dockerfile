@@ -1,4 +1,4 @@
-FROM letdown2491/haven-relay:v1.2.7
+FROM letdown2491/haven-relay:v1.3.1
 
 # Install bash for the Start9 entrypoint and ensure timezone data is present
 RUN apk add --no-cache bash tzdata coreutils
