@@ -2,6 +2,9 @@
 
 [Haven](https://github.com/bitvora/haven) - a High Availability Vault for Events on Nostr, packaged for Start9 OS.
 
+> [!IMPORTANT]
+> **ARCHIVED** This project has been abandoned in favor of [haven-kit-startos](https://github.com/Letdown2491/haven-kit-startos) which is only compatible with StartOS v0.4.
+
 ## What is Haven?
 
 Haven is a specialized Nostr relay system that provides a complete infrastructure for managing your Nostr presence. It consists of five interconnected relay components:
